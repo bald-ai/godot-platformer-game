@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://sphf1fyl7bam"]
+
+[ext_resource type="PackedScene" uid="uid://414soifequvb" path="res://scenes/slime.tscn" id="1_lsw83"]
+[ext_resource type="Texture2D" uid="uid://dr36hta0uhm42" path="res://assets/sprites/slime_purple.png" id="2_t16a3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jhcl7"]
+atlas = ExtResource("2_t16a3")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dp2bf"]
+atlas = ExtResource("2_t16a3")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8l41y"]
+atlas = ExtResource("2_t16a3")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ys1d1"]
+atlas = ExtResource("2_t16a3")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nsp21"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jhcl7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dp2bf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8l41y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ys1d1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[node name="Slime" instance=ExtResource("1_lsw83")]
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_nsp21")
+animation = &"idle"
+autoplay = "idle"

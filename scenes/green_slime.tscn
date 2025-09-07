@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://bct6deb8sd26r"]
+
+[ext_resource type="PackedScene" uid="uid://414soifequvb" path="res://scenes/slime.tscn" id="1_bln8p"]
+[ext_resource type="Texture2D" uid="uid://mhgrxphqs8t3" path="res://assets/sprites/slime_green.png" id="1_tuic5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tuic5"]
+atlas = ExtResource("1_tuic5")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pvn7"]
+atlas = ExtResource("1_tuic5")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4q1e0"]
+atlas = ExtResource("1_tuic5")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_boo2g"]
+atlas = ExtResource("1_tuic5")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kq38r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tuic5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pvn7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4q1e0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_boo2g")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[node name="Slime" instance=ExtResource("1_bln8p")]
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_kq38r")
+animation = &"idle"
+autoplay = "idle"
+frame = 1
+frame_progress = 0.403648
