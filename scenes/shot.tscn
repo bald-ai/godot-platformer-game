@@ -1,10 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://cwwuox5gn63k2"]
+[gd_scene load_steps=17 format=3 uid="uid://cwwuox5gn63k2"]
 
-[ext_resource type="Script" uid="uid://e72iym6csdse" path="res://scripts/shot.gd" id="1_cupcd"]
+[ext_resource type="Script" uid="uid://bwh3usqw646th" path="res://scripts/shot.gd" id="1_cupcd"]
 [ext_resource type="Texture2D" uid="uid://bdf8hohf6er4w" path="res://assets/sprites/green_portal_shot_sprite.png" id="1_ta7u2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ta7u2"]
-size = Vector2(57.5, 35)
+size = Vector2(21.0625, 8.5)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ta7u2"]
 atlas = ExtResource("1_ta7u2")
@@ -32,11 +32,19 @@ region = Rect2(250, 125, 125, 125)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jawdb"]
 atlas = ExtResource("1_ta7u2")
-region = Rect2(0, 250, 125, 125)
+region = Rect2(0, 375, 125, 125)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jiixc"]
 atlas = ExtResource("1_ta7u2")
+region = Rect2(0, 250, 125, 125)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shckl"]
+atlas = ExtResource("1_ta7u2")
 region = Rect2(125, 250, 125, 125)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hm25k"]
+atlas = ExtResource("1_ta7u2")
+region = Rect2(125, 375, 125, 125)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7koja"]
 atlas = ExtResource("1_ta7u2")
@@ -59,7 +67,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_r6d4o")
 }],
 "loop": true,
-"name": &"flight",
+"name": &"green_flight",
 "speed": 5.0
 }, {
 "frames": [{
@@ -77,10 +85,16 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jiixc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shckl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hm25k")
 }],
-"loop": true,
-"name": &"impact",
-"speed": 5.0
+"loop": false,
+"name": &"green_impact",
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -89,24 +103,39 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ue58c")
 }],
+"loop": false,
+"name": &"green_shoot",
+"speed": 5.0
+}, {
+"frames": [],
 "loop": true,
-"name": &"shot",
+"name": &"purple_flight",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"purple_impact",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"purple_shoot",
 "speed": 5.0
 }]
 
-[node name="Shot" type="Node2D"]
-
-[node name="GreenShot" type="Area2D" parent="."]
+[node name="Shot" type="Area2D"]
 script = ExtResource("1_cupcd")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GreenShot"]
-position = Vector2(20.25, 20.5)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-4.46875, -3)
 shape = SubResource("RectangleShape2D_ta7u2")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="GreenShot"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-9, -11)
+scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_shckl")
-animation = &"flight"
+animation = &"green_impact"
+frame = 6
+frame_progress = 1.0
 
-[node name="PurpleShot" type="Area2D" parent="."]
-
-[connection signal="body_entered" from="GreenShot" to="GreenShot" method="_on_body_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

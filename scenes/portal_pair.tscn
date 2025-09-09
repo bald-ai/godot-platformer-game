@@ -119,7 +119,7 @@ collision_mask = 2
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PortalA"]
 sprite_frames = SubResource("SpriteFrames_nwvpq")
 autoplay = "default"
-frame_progress = 0.0671687
+frame_progress = 0.319444
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PortalA"]
 position = Vector2(1, 0)
