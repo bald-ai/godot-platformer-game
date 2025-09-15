@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var velocity: Vector2
-@export var world_mask: int = 1 << 0
+@export var world_mask: int = 1 << 7
 
 var _last_pos: Vector2
 var _active := true
