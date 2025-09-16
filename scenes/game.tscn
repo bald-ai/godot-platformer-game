@@ -465,12 +465,4 @@ position = Vector2(1449, -77)
 position = Vector2(981, -44)
 
 [node name="PortalPair" parent="." instance=ExtResource("10_vtaks")]
-position = Vector2(-7, -21)
-
-[node name="PortalA" parent="PortalPair" index="0"]
-position = Vector2(-405, 46)
-
-[node name="PortalB" parent="PortalPair" index="1"]
-position = Vector2(122, -20)
-
-[editable path="PortalPair"]
+position = Vector2(-527, -162)

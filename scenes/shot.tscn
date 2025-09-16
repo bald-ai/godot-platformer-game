@@ -40,7 +40,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"green_flight",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -51,7 +51,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"green_shoot",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [],
 "loop": true,
@@ -75,6 +75,6 @@ shape = SubResource("RectangleShape2D_ta7u2")
 position = Vector2(-9, -11)
 scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_shckl")
-animation = &"green_flight"
+animation = &"green_shoot"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

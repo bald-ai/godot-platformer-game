@@ -1,7 +1,15 @@
 [gd_scene load_steps=11 format=3 uid="uid://cq1gbmltuh7qu"]
 
-[ext_resource type="Script" uid="uid://crfq8xkywf808" path="res://scripts/portal.gd" id="1_1ffj6"]
 [ext_resource type="Texture2D" uid="uid://c7krn61kyypdt" path="res://assets/sprites/pportal.png" id="2_1ffj6"]
+
+[sub_resource type="GDScript" id="GDScript_e8ghk"]
+script/source = "extends Area2D
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group(\"Player\"):
+		print(\"Player entered portal!\")
+		body.set_position($DestinationPoint.global_position)
+"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jr6l0"]
 atlas = ExtResource("2_1ffj6")
@@ -58,7 +66,7 @@ size = Vector2(7, 26)
 
 [node name="EntrancePortal" type="Area2D"]
 collision_mask = 2
-script = ExtResource("1_1ffj6")
+script = SubResource("GDScript_e8ghk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_frqps")
