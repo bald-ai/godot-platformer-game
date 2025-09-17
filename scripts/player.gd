@@ -1,45 +1,85 @@
 extends CharacterBody2D
 
 const BULLET_SCENE: PackedScene = preload("res://scenes/shot.tscn")
-@export var portal_pair_scene: PackedScene = preload("res://scenes/portal_pair.tscn")
-@export var bullet_speed: float = 1000.0
+@export var portal_pair_scene: PackedScene = preload("res://scenes/portal.tscn")
+@export var bullet_speed: float = 300.0
 
 var speed: float = 100.0
 const JUMP_VELOCITY: float = -300.0
+const PARRY_DURATION: float = 0.33
+const DASH_SPEED: float = 333.33
+const DASH_DURATION: float = 0.09
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 var facing_dir: int = 1
 var _portal_mgr: Node = null
+var _parry_time_left: float = 0.0
+var _is_dashing: bool = false
+var _dash_time_left: float = 0.0
+var _dash_dir: int = 1
 
 func _ready() -> void:
 	_portal_mgr = _get_or_spawn_portal_pair()
 
 func _physics_process(delta: float) -> void:
-	if not is_on_floor(): velocity += get_gravity() * delta
+	if not _is_dashing and not is_on_floor(): velocity += get_gravity() * delta
 	speed = 175 if Input.is_action_pressed("sprint") else 100
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor(): velocity.y = JUMP_VELOCITY
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor() and not _is_dashing: velocity.y = JUMP_VELOCITY
 
 	var direction := Input.get_axis("move_left", "move_right")
-	if direction > 0:
-		animated_sprite_2d.flip_h = false; facing_dir = 1
-	elif direction < 0:
-		animated_sprite_2d.flip_h = true; facing_dir = -1
 
-	if is_on_floor():
-		if direction == 0: animated_sprite_2d.play("idle")
-		else: animated_sprite_2d.play("run")
+	# Handle dash input (F mapped to action "dash")
+	if Input.is_action_just_pressed("dash") and not _is_dashing:
+		var dir_int := 1 if direction > 0 else (-1 if direction < 0 else facing_dir)
+		_begin_dash(dir_int)
+
+	# Update facing only if not currently dashing
+	if not _is_dashing:
+		if direction > 0:
+			animated_sprite_2d.flip_h = false; facing_dir = 1
+		elif direction < 0:
+			animated_sprite_2d.flip_h = true; facing_dir = -1
+
+	# Animation state
+	if _is_dashing:
+		animated_sprite_2d.play("dash")
 	else:
-		animated_sprite_2d.play("jump")
+		if is_on_floor():
+			if direction == 0: animated_sprite_2d.play("idle")
+			else: animated_sprite_2d.play("run")
+		else:
+			animated_sprite_2d.play("jump")
 
-	if direction: velocity.x = direction * speed
-	else: velocity.x = move_toward(velocity.x, 0, speed)
+	# Movement
+	if _is_dashing:
+		# Maintain horizontal dash velocity; gravity disabled while dashing
+		velocity.x = DASH_SPEED * _dash_dir
+		velocity.y = 0.0
+	else:
+		if direction: velocity.x = direction * speed
+		else: velocity.x = move_toward(velocity.x, 0, speed)
+
 	move_and_slide()
 
-func _process(_delta: float) -> void:
+	# End dash on collision or when duration elapses
+	if _is_dashing:
+		_dash_time_left -= delta
+		var collided := get_slide_collision_count() > 0
+		if collided or _dash_time_left <= 0.0:
+			_is_dashing = false
+			if collided:
+				velocity.x = 0.0
+
+func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("shoot_first_portal"):  # F -> GREEN
 		_shoot(0)
 	if Input.is_action_just_pressed("shoot_second_portal"): # G -> PURPLE
 		_shoot(1)
+
+	if Input.is_action_just_pressed("parry"):
+		_parry_time_left = PARRY_DURATION
+	if _parry_time_left > 0.0:
+		_parry_time_left -= delta
 
 func _shoot(color_id: int) -> void:
 	var b := BULLET_SCENE.instantiate() as Area2D
@@ -70,3 +110,16 @@ func _get_or_spawn_portal_pair() -> Node:
 		get_tree().current_scene.add_child(inst)
 		return inst
 	return null
+
+func is_parrying_active() -> bool:
+	return _parry_time_left > 0.0
+
+func _begin_dash(dir: int) -> void:
+	_is_dashing = true
+	_dash_time_left = DASH_DURATION
+	_dash_dir = dir
+	facing_dir = dir
+	animated_sprite_2d.flip_h = (dir == -1)
+	velocity.x = DASH_SPEED * dir
+	velocity.y = 0.0
+	animated_sprite_2d.play("dash")

@@ -1,0 +1,76 @@
+[gd_scene load_steps=11 format=3 uid="uid://bjjc4wvna1api"]
+
+[ext_resource type="Texture2D" uid="uid://b15rxeoxhuxw3" path="res://assets/sprites/spr_simple_turret_idle.png" id="1_x3mc5"]
+[ext_resource type="Texture2D" uid="uid://bjk7uokgdjn3x" path="res://assets/sprites/spr_simple_turret_shoot.png" id="2_el7wl"]
+[ext_resource type="Script" uid="uid://dt4vug3i7tbjb" path="res://scripts/turret.gd" id="3_2k8x1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_485p4"]
+atlas = ExtResource("1_x3mc5")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pp6j5"]
+atlas = ExtResource("2_el7wl")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6fjxm"]
+atlas = ExtResource("2_el7wl")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dirdf"]
+atlas = ExtResource("2_el7wl")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqfwu"]
+atlas = ExtResource("2_el7wl")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0dv4j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_485p4")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pp6j5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6fjxm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dirdf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqfwu")
+}],
+"loop": false,
+"name": &"shoot",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tg0ex"]
+size = Vector2(13, 10)
+
+[node name="Turret" type="RigidBody2D"]
+collision_mask = 3
+script = ExtResource("3_2k8x1")
+
+[node name="AnimatedSpriteShoot" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -9.53674e-07)
+scale = Vector2(1.4375, 1.375)
+sprite_frames = SubResource("SpriteFrames_0dv4j")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.5, 0)
+shape = SubResource("RectangleShape2D_tg0ex")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(12, 0)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0

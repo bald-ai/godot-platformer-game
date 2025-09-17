@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://b8jalg14e75vk"]
+
+[ext_resource type="Texture2D" uid="uid://bjff7y3733qq" path="res://assets/sprites/spr_simple_bullet.png" id="1_y25gk"]
+[ext_resource type="PackedScene" uid="uid://d1ifdd6d4eqmg" path="res://scenes/killzone.tscn" id="2_l5glv"]
+[ext_resource type="Script" uid="uid://l7kp2hsac04s" path="res://scripts/bullet.gd" id="3_1zqj6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eoqba"]
+radius = 5.0
+
+[node name="Bullet" type="RigidBody2D"]
+script = ExtResource("3_1zqj6")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_eoqba")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("1_y25gk")
+
+[node name="Killzone" parent="." instance=ExtResource("2_l5glv")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
+shape = SubResource("CircleShape2D_eoqba")
